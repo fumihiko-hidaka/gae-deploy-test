@@ -1,0 +1,45 @@
+box: google/cloud-sdk:alpine
+build:
+    steps:
+        - script:
+            name: gcloud auth
+            code: |-
+                gcloud auth activate-service-account "$gae_deploy_test_account" --key-file "$WERCKER_SOURCE_DIR"/service.json --project "$gae_deplot_test_project"
+        - script:
+            name: decript .env
+            code: |-
+                gcloud kms decrypt --location=global --keyring=my-keyring --key=github-key --ciphertext-file=cloud/"$ENV_FILE_NAME" --plaintext-file=.env
+        - script:
+            name: end build
+            code: |-
+                echo build 🙆‍
+
+deploy:
+    steps:
+        - script:
+            name: make auth json file
+            code: |-
+                echo $gae_deploy_test_key_file > service.json
+                cat service.json
+        - script:
+            name: check resource
+            code: |-
+                ls -l
+        - script:
+            name: get timestamp for tag
+            code: |-
+                apk --update add tzdata
+                cp /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
+                GAE_TAG=`date +"%Y%m%d-%H%M%S"`
+        - script:
+            name: gcloud auth
+            code: |-
+                gcloud auth activate-service-account "$gae_deploy_test_account" --key-file "$WERCKER_SOURCE_DIR"/service.json --project "$gae_deplot_test_project"
+        - script:
+            name: deploy gae
+            code: |-
+                echo Y | gcloud app deploy --version "$GAE_TAG" --project "$gae_deplot_test_project"
+        - script:
+            name: delete old version
+            code: |-
+                sh cloud/remove_old_branch.sh
