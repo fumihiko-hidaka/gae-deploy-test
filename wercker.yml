@@ -4,7 +4,7 @@ build:
         - script:
             name: gcloud auth
             code: |-
-                gcloud auth activate-service-account "$gae_deploy_test_account" --key-file "$WERCKER_SOURCE_DIR"/service.json --project "$gae_deplot_test_project"
+                gcloud auth activate-service-account "$gae_deploy_test_account" --key-file "$WERCKER_SOURCE_DIR"/service.json --project "$gae_deploy_test_project"
         - script:
             name: decript .env
             code: |-
@@ -34,11 +34,11 @@ deploy:
         - script:
             name: gcloud auth
             code: |-
-                gcloud auth activate-service-account "$gae_deploy_test_account" --key-file "$WERCKER_SOURCE_DIR"/service.json --project "$gae_deplot_test_project"
+                gcloud auth activate-service-account "$gae_deploy_test_account" --key-file "$WERCKER_SOURCE_DIR"/service.json --project "$gae_deploy_test_project"
         - script:
             name: deploy gae
             code: |-
-                echo Y | gcloud app deploy --version "$GAE_TAG" --project "$gae_deplot_test_project"
+                echo Y | gcloud app deploy --version "$GAE_TAG" --project "$gae_deploy_test_project"
         - script:
             name: delete old version
             code: |-
