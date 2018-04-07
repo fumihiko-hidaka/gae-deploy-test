@@ -2,6 +2,11 @@ box: google/cloud-sdk:alpine
 build:
     steps:
         - script:
+            name: make auth json file
+            code: |-
+                echo $gae_deploy_test_key_file > service.json
+                cat service.json
+        - script:
             name: gcloud auth
             code: |-
                 gcloud auth activate-service-account "$GAE_DEPLOY_TEST_ACCOUNT" --key-file "$WERCKER_SOURCE_DIR"/service.json --project "$GAE_DEPLOY_TEST_PROJECT"
@@ -22,9 +27,9 @@ deploy:
                 echo $gae_deploy_test_key_file > service.json
                 cat service.json
         - script:
-            name: check resource
+            name: gcloud auth
             code: |-
-                ls -l
+                gcloud auth activate-service-account "$GAE_DEPLOY_TEST_ACCOUNT" --key-file "$WERCKER_SOURCE_DIR"/service.json --project "$GAE_DEPLOY_TEST_PROJECT"
         - script:
             name: get timestamp for tag
             code: |-
