@@ -4,7 +4,7 @@ build:
         - script:
             name: make auth json file
             code: |-
-                echo $gae_deploy_test_key_file > service.json
+                echo $GAE_DEPLOY_TEST_KEY_FILE > service.json
                 cat service.json
         - script:
             name: gcloud auth
@@ -24,7 +24,7 @@ deploy:
         - script:
             name: make auth json file
             code: |-
-                echo $gae_deploy_test_key_file > service.json
+                echo $GAE_DEPLOY_TEST_KEY_FILE > service.json
                 cat service.json
         - script:
             name: gcloud auth
