@@ -37,10 +37,6 @@ deploy:
                 cp /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
                 GAE_TAG=`date +"%Y%m%d-%H%M%S"`
         - script:
-            name: gcloud auth
-            code: |-
-                gcloud auth activate-service-account "$GAE_DEPLOY_TEST_ACCOUNT" --key-file "$WERCKER_SOURCE_DIR"/service.json --project "$GAE_DEPLOY_TEST_PROJECT"
-        - script:
             name: deploy gae
             code: |-
                 echo Y | gcloud app deploy --version "$GAE_TAG" --project "$GAE_DEPLOY_TEST_PROJECT"
