@@ -4,11 +4,11 @@ build:
         - script:
             name: gcloud auth
             code: |-
-                gcloud auth activate-service-account "$gae_deploy_test_account" --key-file "$WERCKER_SOURCE_DIR"/service.json --project "$gae_deploy_test_project"
+                gcloud auth activate-service-account "$GAE_DEPLOY_TEST_ACCOUNT" --key-file "$WERCKER_SOURCE_DIR"/service.json --project "$GAE_DEPLOY_TEST_PROJECT"
         - script:
             name: decript .env
             code: |-
-                gcloud kms decrypt --location=global --keyring=my-keyring --key=github-key --ciphertext-file=cloud/"$ENV_FILE_NAME" --plaintext-file=.env
+                gcloud kms decrypt --location=global --keyring="$GAE_KEYRING_NAME" --key="$GAE_KEY_NAME" --ciphertext-file=cloud/"$ENV_FILE_NAME" --plaintext-file=.env
         - script:
             name: end build
             code: |-
@@ -34,11 +34,11 @@ deploy:
         - script:
             name: gcloud auth
             code: |-
-                gcloud auth activate-service-account "$gae_deploy_test_account" --key-file "$WERCKER_SOURCE_DIR"/service.json --project "$gae_deploy_test_project"
+                gcloud auth activate-service-account "$GAE_DEPLOY_TEST_ACCOUNT" --key-file "$WERCKER_SOURCE_DIR"/service.json --project "$GAE_DEPLOY_TEST_PROJECT"
         - script:
             name: deploy gae
             code: |-
-                echo Y | gcloud app deploy --version "$GAE_TAG" --project "$gae_deploy_test_project"
+                echo Y | gcloud app deploy --version "$GAE_TAG" --project "$GAE_DEPLOY_TEST_PROJECT"
         - script:
             name: delete old version
             code: |-
