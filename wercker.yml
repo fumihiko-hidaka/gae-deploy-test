@@ -2,22 +2,24 @@ box: google/cloud-sdk:alpine
 build:
     steps:
         - script:
-            name: make auth json file
-            code: |-
-                echo $GAE_DEPLOY_TEST_KEY_FILE > service.json
-                cat service.json
-        - script:
-            name: gcloud auth
-            code: |-
-                gcloud auth activate-service-account "$GAE_DEPLOY_TEST_ACCOUNT" --key-file "$WERCKER_SOURCE_DIR"/service.json --project "$GAE_DEPLOY_TEST_PROJECT"
-        - script:
-            name: decript .env
-            code: |-
-                gcloud kms decrypt --location=global --keyring="$GAE_KEYRING_NAME" --key="$GAE_KEY_NAME" --ciphertext-file=cloud/"$ENV_FILE_NAME" --plaintext-file=.env
-        - script:
             name: end build
             code: |-
                 echo build 🙆‍
+
+test1:
+    steps:
+        - script:
+            name: test1 create
+            code: |-
+                touch test1.txt
+                ls -l
+test2:
+    steps:
+        - script:
+            name: test2 create
+            code: |-
+                touch test2.txt
+                ls -l
 
 deploy:
     steps:
@@ -30,6 +32,10 @@ deploy:
             name: gcloud auth
             code: |-
                 gcloud auth activate-service-account "$GAE_DEPLOY_TEST_ACCOUNT" --key-file "$WERCKER_SOURCE_DIR"/service.json --project "$GAE_DEPLOY_TEST_PROJECT"
+        - script:
+            name: decript .env
+            code: |-
+                gcloud kms decrypt --location=global --keyring="$GAE_KEYRING_NAME" --key="$GAE_KEY_NAME" --ciphertext-file=cloud/"$ENV_FILE_NAME" --plaintext-file=.env
         - script:
             name: get timestamp for tag
             code: |-
