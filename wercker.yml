@@ -6,21 +6,6 @@ build:
             code: |-
                 echo build 🙆‍
 
-test1:
-    steps:
-        - script:
-            name: test1 create
-            code: |-
-                touch test1.txt
-                ls -l
-test2:
-    steps:
-        - script:
-            name: test2 create
-            code: |-
-                touch test2.txt
-                ls -l
-
 deploy:
     steps:
         - script:
