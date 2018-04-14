@@ -12,7 +12,6 @@ deploy:
             name: make auth json file
             code: |-
                 echo $GAE_DEPLOY_TEST_KEY_FILE > service.json
-                cat service.json
         - script:
             name: gcloud auth
             code: |-
@@ -21,6 +20,8 @@ deploy:
             name: decript .env
             code: |-
                 gcloud kms decrypt --location=global --keyring="$GAE_KEYRING_NAME" --key="$GAE_KEY_NAME" --ciphertext-file=cloud/"$ENV_FILE_NAME" --plaintext-file=.env
+                ls -la
+                cat .env
         - script:
             name: get timestamp for tag
             code: |-
