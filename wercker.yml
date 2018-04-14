@@ -20,6 +20,7 @@ deploy:
             name: decript .env
             code: |-
                 gcloud kms decrypt --location=global --keyring="$GAE_KEYRING_NAME" --key="$GAE_KEY_NAME" --ciphertext-file=cloud/"$ENV_FILE_NAME" --plaintext-file=.env
+                ls -l
         - script:
             name: get timestamp for tag
             code: |-
