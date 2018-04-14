@@ -12,7 +12,6 @@ deploy:
             name: make auth json file
             code: |-
                 echo $GAE_DEPLOY_TEST_KEY_FILE > service.json
-                cat service.json
         - script:
             name: gcloud auth
             code: |-
